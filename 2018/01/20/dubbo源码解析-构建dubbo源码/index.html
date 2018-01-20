@@ -16,16 +16,22 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Repositories | 云淡de博客</title>
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Repositories">
-<meta property="og:url" content="http://hadesvip.github.io/repository/index.html">
+  <title>dubbo源码解析(-):构建dubbo源码 | 云淡de博客</title>
+  <meta name="description" content="学习dubbo源码好处 提高soa微服务架构理解  SOA服务治理是dubbo首先提出来的，学习架构原理更能深度的理解SOA思想   提高Java底层理解还有设计模式  tcp的单工，半双工，全双工，编码，解码，拆包，粘包，netty网络框架通信，nio,线程池，boss线程，work线程，集群负载均衡loadbalace,cluster,router,zk    下载dubbo最新源码(2.6.">
+<meta name="keywords" content="java,dubbo源码">
+<meta property="og:type" content="article">
+<meta property="og:title" content="dubbo源码解析(-):构建dubbo源码">
+<meta property="og:url" content="http://hadesvip.github.io/2018/01/20/dubbo源码解析-构建dubbo源码/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:updated_time" content="2018-01-19T02:46:14.352Z">
+<meta property="og:description" content="学习dubbo源码好处 提高soa微服务架构理解  SOA服务治理是dubbo首先提出来的，学习架构原理更能深度的理解SOA思想   提高Java底层理解还有设计模式  tcp的单工，半双工，全双工，编码，解码，拆包，粘包，netty网络框架通信，nio,线程池，boss线程，work线程，集群负载均衡loadbalace,cluster,router,zk    下载dubbo最新源码(2.6.">
+<meta property="og:image" content="http://hadesvip.github.io/images/dubbo_source_build.png">
+<meta property="og:updated_time" content="2018-01-20T07:53:15.818Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Repositories">
+<meta name="twitter:title" content="dubbo源码解析(-):构建dubbo源码">
+<meta name="twitter:description" content="学习dubbo源码好处 提高soa微服务架构理解  SOA服务治理是dubbo首先提出来的，学习架构原理更能深度的理解SOA思想   提高Java底层理解还有设计模式  tcp的单工，半双工，全双工，编码，解码，拆包，粘包，netty网络框架通信，nio,线程池，boss线程，work线程，集群负载均衡loadbalace,cluster,router,zk    下载dubbo最新源码(2.6.">
+<meta name="twitter:image" content="http://hadesvip.github.io/images/dubbo_source_build.png">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://hadesvip.github.io/repository/index.html">
+  <link rel="canonical" href="http://hadesvip.github.io/2018/01/20/dubbo源码解析-构建dubbo源码/index.html">
   
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -40,7 +46,7 @@
 </head>
 
 
-<body class="main-center no-sidebar" itemscope itemtype="http://schema.org/WebPage">
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
   <header class="header" itemscope itemtype="http://schema.org/WPHeader">
   <div class="slimContent">
     <div class="navbar-header">
@@ -310,46 +316,184 @@
 </aside>
 
   
-  <main class="main" role="main">
-  <article class="article article-repository article-type-list" itemscope="">
-  <header class="article-header">
-    <h1 itemprop="title">Repositories</h1>
-    <p class="text-muted">I have <span id="repo-count">0</span> projects on Github</p>
-  </header>
-  <div class="article-body">
-    <div class="repo-content">
-      <div class="blankslate">
-        <p>正在加载...</p>
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-dubbo源码解析-构建dubbo源码" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      dubbo源码解析(-):构建dubbo源码
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/01/20/dubbo源码解析-构建dubbo源码/" class="article-date">
+	  <time datetime="2018-01-20T07:16:56.000Z" itemprop="datePublished">2018-01-20</time>
+	</a>
+</span>
+        
+  <span class="article-category">
+    <i class="icon icon-folder"></i>
+    <a class="article-category-link" href="/categories/java/">java</a>
+  </span>
+
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/dubbo源码/">dubbo源码</a>, <a class="article-tag-link" href="/tags/java/">java</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/01/20/dubbo源码解析-构建dubbo源码/#comments" class="article-comment-link">Comments</a></span>
+        
       </div>
     </div>
-  </div>
-</article>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h2 id="学习dubbo源码好处"><a href="#学习dubbo源码好处" class="headerlink" title="学习dubbo源码好处"></a>学习dubbo源码好处</h2><ul>
+<li><p>提高soa微服务架构理解</p>
+<ul>
+<li>SOA服务治理是dubbo首先提出来的，学习架构原理更能深度的理解SOA思想</li>
+</ul>
+</li>
+<li><p>提高Java底层理解还有设计模式</p>
+<ul>
+<li>tcp的单工，半双工，全双工，编码，解码，拆包，粘包，netty网络框架通信，nio,线程池，boss线程，work线程，集群负载均衡loadbalace,cluster,router,zk</li>
+</ul>
+</li>
+</ul>
+<h2 id="下载dubbo最新源码-2-6-0"><a href="#下载dubbo最新源码-2-6-0" class="headerlink" title="下载dubbo最新源码(2.6.0)"></a>下载dubbo最新源码(2.6.0)</h2><ul>
+<li><p>dubbo项目托管在github 上面</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">git clone git clone https://github.com/alibaba/dubbo</span><br><span class="line"></span><br><span class="line">git checkout -b dubbo-2.6.0  dubbo-2.6.0</span><br></pre></td></tr></table></figure>
+<ul>
+<li><p>构建环境</p>
+</li>
+<li><p>maven3.5.0</p>
+</li>
+<li><p>java8</p>
+</li>
+<li><p>idea</p>
+</li>
+</ul>
+</li>
+</ul>
+<ul>
+<li><p>直接导入idea中</p>
+<p> <img src="/images/dubbo_source_build.png" alt="codeStyle在idea中的配置"></p>
+</li>
+<li><p>命令行构建</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">cd dubbo</span><br><span class="line">mvn clean package -DskipTests</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>dubbo源码包介绍</p>
+<ul>
+<li>dubbo-admin dubbo控制台管理项目</li>
+<li>dubbo-cluster dubbo集群实现</li>
+<li>dubbo-common dubbo公共类或者工具</li>
+<li>dubbo-config dubbo配置实现</li>
+<li>dubbo-container dubbo容器:spring容器,jetty,日记实现</li>
+<li>dubbo-demo 官网提供的demo</li>
+<li>dubbo-filter dubbo缓存和验证</li>
+<li>dubbo-registry　dubbo核心注册中心实现,zk,redis,广播，直连</li>
+<li>dubbo-monitor　监控模块，统计服务调用次数和时间，调用链跟踪服务</li>
+<li>dubbo-remoting dubbo远程通讯实现</li>
+<li>dubbo-rpc 远程调用模块</li>
+<li>dubbo-test dubbo一些测试</li>
+</ul>
+</li>
+</ul>
 
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://hadesvip.github.io/2018/01/20/dubbo源码解析-构建dubbo源码/" title="dubbo源码解析(-):构建dubbo源码" target="_blank" rel="external">http://hadesvip.github.io/2018/01/20/dubbo源码解析-构建dubbo源码/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/hadesvip" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/hadesvip" target="_blank"><span class="text-dark">云淡</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>喜欢新事物,关注服务端动态,对新技术有追求,喜欢Coding。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+    <div id="uyan_frame"></div>
+
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    
+    <li class="next">
+      <a href="/2018/01/19/dubbo教程-一-dubbo入门Demo/" title="dubbo教程(一):dubbo入门Demo">Older&nbsp;&nbsp;<i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+    
+  </div>
+  </div>
+</nav>
   
 
 
-
-<!--Github项模版-->
-<script type="text/template" id="list-template">
-  <li class="col-sm-6 col-md-6 col-lg-4">
-    <div class="repo hover-shadow hover-grow">
-      <div class="repo-image geopattern" data-pattern-id="{%=name%}"></div>
-      <h3 class="repo-title"><a href="{%=clone_url%}" target="_blank" rel="external nofollow noopener noreferrer">{%=full_name%}</a></h3>
-      <p class="repo-body">{%=description%}</p>
-      <div class="repo-meta">
-        <span class="meta meta-type pull-left" aria-label="{%=language%} project">{%=language%}</span>
-        <span class="meta meta-star" aria-label="{%=stargazers_count%} stars"><i class="icon icon-star-fill"></i> {%=stargazers_count%}</span>
-        <span class="meta meta-fork" aria-label="{%=forks_count%} forks"><i class="icon icon-code-fork"></i> {%=forks_count%}</span>
-        <span class="meta meta-last-updated" aria-label="最后更新时间：{%=updated_at%}">
-        <i class="icon icon-clock"></i> <time datetime="{%=updated_at%}">{%=updated_at%}</time></span>
-      </div>
-    </div>
-  </li>
-</script>
-<!--获取失败模版-->
-<script type="text/template" id="error-template">
-  <h3>加载失败</h3><p>请刷新或稍后再试...</p>
-</script>
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -376,51 +520,6 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/application.js"></script>
   
     
-        <script type="text/javascript">
-var open = function() {
-  var baiduTpl = new Object();
-  var handleTpl = function() {
-    baiduTpl.list = baidu.template("list-template");
-    baiduTpl.error = baidu.template("error-template");
-  };
-
-  var handleGithub = function() {
-    var repoContainer = $('.repo-content');
-    var errorContainer = repoContainer.find(".blankslate");
-    var countContainer = $("#repo-count");
-
-    $.get("https://api.github.com/users/hadesvip/repos", function(result) {
-      if (result) {
-        errorContainer.remove();
-        countContainer.text(result.length); //设置项目个数
-        var ul = $("<ul class='repo-list row clearfix'></ul>");
-        for (var i in result) {
-          var repo = result[i];
-          repo.updated_at = repo.updated_at.substring(0, repo.updated_at.lastIndexOf("T"));
-          var html = baiduTpl.list(repo);
-          ul.append(html);
-        }
-        repoContainer.append(ul);
-        $(".geopattern").each(function() {
-          $(this).geopattern($(this).data('pattern-id'));
-        });
-      } else {
-        errorContainer.append(baiduTpl.error());
-      }
-    });
-  };
-
-  return {
-    init: function() {
-      handleTpl();
-      handleGithub();
-    }
-  }
-};
-$(open().init);
-</script>
-
-    
     
     
         <script>
@@ -443,6 +542,18 @@ $(open().init);
     
     
     
+        
+<script defer src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+        
+    
+    <script defer type="text/javascript" src="http://v2.uyan.cc/code/uyan.js?uid=[object Object]"></script>
+
+
     
     
 

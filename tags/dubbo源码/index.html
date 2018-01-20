@@ -16,16 +16,15 @@
   <meta http-equiv="window-target" content="_top" />
   
   
-  <title>Repositories | 云淡de博客</title>
+  <title>Tag: dubbo源码 | 云淡de博客</title>
   <meta property="og:type" content="website">
-<meta property="og:title" content="Repositories">
-<meta property="og:url" content="http://hadesvip.github.io/repository/index.html">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://hadesvip.github.io/tags/dubbo源码/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:updated_time" content="2018-01-19T02:46:14.352Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Repositories">
+<meta name="twitter:title" content="Hexo">
   <!-- Canonical links -->
-  <link rel="canonical" href="http://hadesvip.github.io/repository/index.html">
+  <link rel="canonical" href="http://hadesvip.github.io/tags/dubbo源码/index.html">
   
   
     <link rel="icon" href="/favicon.png" type="image/x-icon">
@@ -40,7 +39,7 @@
 </head>
 
 
-<body class="main-center no-sidebar" itemscope itemtype="http://schema.org/WebPage">
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
   <header class="header" itemscope itemtype="http://schema.org/WPHeader">
   <div class="slimContent">
     <div class="navbar-header">
@@ -311,45 +310,64 @@
 
   
   <main class="main" role="main">
-  <article class="article article-repository article-type-list" itemscope="">
-  <header class="article-header">
-    <h1 itemprop="title">Repositories</h1>
-    <p class="text-muted">I have <span id="repo-count">0</span> projects on Github</p>
-  </header>
-  <div class="article-body">
-    <div class="repo-content">
-      <div class="blankslate">
-        <p>正在加载...</p>
-      </div>
-    </div>
-  </div>
+  <article class="content article article-tags post-type-list" itemscope="">
+    <header class="article-header">
+      <h1 itemprop="name" class="hidden-xs">Tag: dubbo源码</h1>
+      <p class="text-muted hidden-xs">Total 1 articles</p>
+      <nav role="navigation" id="nav-main" class="okayNav">
+        <ul>
+          <li><a href="/tags">All</a></li>
+          
+          <li><a href="/tags/工作笔记/">工作笔记</a></li>
+          
+          <li><a href="/tags/工具/">工具</a></li>
+          
+          <li><a href="/tags/java/">java</a></li>
+          
+          <li><a href="/tags/dubbo源码/">dubbo源码</a></li>
+          
+          <li><a href="/tags/dubbo/">dubbo</a></li>
+          
+          <li><a href="/tags/rpc/">rpc</a></li>
+          
+          <li><a href="/tags/soa/">soa</a></li>
+          
+        </ul>
+      </nav>
+    </header>
+    <!-- /header -->
+    <div class="article-body">
+      <div class="row">
+        
+<div class="col-md-6">
+    
+<article class="panel panel-default hover-shadow hover-grow" itemscope itemtype="http://schema.org/BlogPosting">
+  <div class="panel-body">
+     <div class="article-meta">
+       <time datetime="2018-01-20T07:16:56.000Z" itemprop="datePublished">2018-01-20</time>
+     </div>
+     <h3 class="article-title" itemprop="name">
+       <a class="article-link" href="/2018/01/20/dubbo源码解析-构建dubbo源码/">dubbo源码解析(-):构建dubbo源码</a>
+     </h3>
+   </div>
+   
+   <div class="panel-footer">
+     
+      <a href="/tags/java/" class="label label-default mb">java</a>
+     
+      <a href="/tags/dubbo源码/" class="label label-default mb">dubbo源码</a>
+     
+   </div>
+   
 </article>
 
-  
 
+</div>
 
-
-<!--Github项模版-->
-<script type="text/template" id="list-template">
-  <li class="col-sm-6 col-md-6 col-lg-4">
-    <div class="repo hover-shadow hover-grow">
-      <div class="repo-image geopattern" data-pattern-id="{%=name%}"></div>
-      <h3 class="repo-title"><a href="{%=clone_url%}" target="_blank" rel="external nofollow noopener noreferrer">{%=full_name%}</a></h3>
-      <p class="repo-body">{%=description%}</p>
-      <div class="repo-meta">
-        <span class="meta meta-type pull-left" aria-label="{%=language%} project">{%=language%}</span>
-        <span class="meta meta-star" aria-label="{%=stargazers_count%} stars"><i class="icon icon-star-fill"></i> {%=stargazers_count%}</span>
-        <span class="meta meta-fork" aria-label="{%=forks_count%} forks"><i class="icon icon-code-fork"></i> {%=forks_count%}</span>
-        <span class="meta meta-last-updated" aria-label="最后更新时间：{%=updated_at%}">
-        <i class="icon icon-clock"></i> <time datetime="{%=updated_at%}">{%=updated_at%}</time></span>
       </div>
     </div>
-  </li>
-</script>
-<!--获取失败模版-->
-<script type="text/template" id="error-template">
-  <h3>加载失败</h3><p>请刷新或稍后再试...</p>
-</script>
+  </article>
+   
 </main>
 
   <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
@@ -376,51 +394,6 @@ window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
 <script src="/js/application.js"></script>
   
     
-        <script type="text/javascript">
-var open = function() {
-  var baiduTpl = new Object();
-  var handleTpl = function() {
-    baiduTpl.list = baidu.template("list-template");
-    baiduTpl.error = baidu.template("error-template");
-  };
-
-  var handleGithub = function() {
-    var repoContainer = $('.repo-content');
-    var errorContainer = repoContainer.find(".blankslate");
-    var countContainer = $("#repo-count");
-
-    $.get("https://api.github.com/users/hadesvip/repos", function(result) {
-      if (result) {
-        errorContainer.remove();
-        countContainer.text(result.length); //设置项目个数
-        var ul = $("<ul class='repo-list row clearfix'></ul>");
-        for (var i in result) {
-          var repo = result[i];
-          repo.updated_at = repo.updated_at.substring(0, repo.updated_at.lastIndexOf("T"));
-          var html = baiduTpl.list(repo);
-          ul.append(html);
-        }
-        repoContainer.append(ul);
-        $(".geopattern").each(function() {
-          $(this).geopattern($(this).data('pattern-id'));
-        });
-      } else {
-        errorContainer.append(baiduTpl.error());
-      }
-    });
-  };
-
-  return {
-    init: function() {
-      handleTpl();
-      handleGithub();
-    }
-  }
-};
-$(open().init);
-</script>
-
-    
     
     
         <script>
@@ -442,6 +415,12 @@ $(open().init);
 <script src="/js/insight.js"></script>
     
     
+    
+        
+<script defer src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
     
     
     
