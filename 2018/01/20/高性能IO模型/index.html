@@ -17,18 +17,18 @@
   
   
   <title>高性能IO模型 | 云淡de博客</title>
-  <meta name="description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型 同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK. IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型． 异步IO(AIO): 经典的">
+  <meta name="description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型  同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK.  IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型．  异步IO(AIO):">
 <meta name="keywords" content="java">
 <meta property="og:type" content="article">
 <meta property="og:title" content="高性能IO模型">
 <meta property="og:url" content="http://hadesvip.github.io/2018/01/20/高性能IO模型/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型 同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK. IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型． 异步IO(AIO): 经典的">
+<meta property="og:description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型  同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK.  IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型．  异步IO(AIO):">
 <meta property="og:image" content="http://hadesvip.github.io/images/bio_operation.png">
-<meta property="og:updated_time" content="2018-01-20T13:54:07.916Z">
+<meta property="og:updated_time" content="2018-01-20T14:10:02.970Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高性能IO模型">
-<meta name="twitter:description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型 同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK. IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型． 异步IO(AIO): 经典的">
+<meta name="twitter:description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型  同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK.  IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型．  异步IO(AIO):">
 <meta name="twitter:image" content="http://hadesvip.github.io/images/bio_operation.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://hadesvip.github.io/2018/01/20/高性能IO模型/index.html">
@@ -382,10 +382,14 @@
     <div class="article-entry markdown-body" itemprop="articleBody">
       
         <h2 id="常见的IO模型"><a href="#常见的IO模型" class="headerlink" title="常见的IO模型"></a>常见的IO模型</h2><ol>
-<li>同步阻塞IO(Blocking IO) :传统的IO类型</li>
-<li>同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK.</li>
-<li>IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型．</li>
-<li>异步IO(AIO): 经典的Proactor设计模式，也称为异步非堵塞IO.</li>
+<li><p>同步阻塞IO(Blocking IO) :传统的IO类型</p>
+</li>
+<li><p>同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK.</p>
+</li>
+<li><p>IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型．</p>
+</li>
+<li><p>异步IO(AIO): 经典的Proactor设计模式，也称为异步非堵塞IO.</p>
+</li>
 </ol>
 <h2 id="同步和异步"><a href="#同步和异步" class="headerlink" title="同步和异步"></a>同步和异步</h2><p>同步和异步的概念描述的是用户线程与内核的交互方式:同步是指用户线程发起IO请求后需要等待或者轮询内核IO操作完成后才能继续执行；而异步是指用户线程发起IO请求后仍继续执行,当内核IO操作完成后会通知用户线程，或者调用用户线程注册的回调函数．</p>
 <h2 id="堵塞和非堵塞"><a href="#堵塞和非堵塞" class="headerlink" title="堵塞和非堵塞"></a>堵塞和非堵塞</h2><p>堵塞和非堵塞的概念描述的是用户线程调用内核IO操作方式:堵塞是指IO操作需要彻底完成后才返回到用户空间;而非堵塞是指IO操作被调用后立即返回给用户一个状态值，无需等到IO操作彻底完成．</p>
