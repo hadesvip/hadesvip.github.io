@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型 同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK. IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型． 异步IO(AIO): 经典的">
 <meta property="og:image" content="http://hadesvip.github.io/images/bio_operation.png">
-<meta property="og:updated_time" content="2018-01-20T13:36:16.907Z">
+<meta property="og:updated_time" content="2018-01-20T13:54:07.916Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="高性能IO模型">
 <meta name="twitter:description" content="常见的IO模型 同步阻塞IO(Blocking IO) :传统的IO类型 同步非阻塞IO(Non-blocking IO):默认创建的scoket都是堵塞的，非堵塞IO要求socket被设置为NONBLOCK. IO多路服用(IO Multiplexing):经典的Reactor设计模式,异步阻塞IO,java中的Selector和Linux的epoll都是这种模型． 异步IO(AIO): 经典的">
@@ -391,7 +391,11 @@
 <h2 id="堵塞和非堵塞"><a href="#堵塞和非堵塞" class="headerlink" title="堵塞和非堵塞"></a>堵塞和非堵塞</h2><p>堵塞和非堵塞的概念描述的是用户线程调用内核IO操作方式:堵塞是指IO操作需要彻底完成后才返回到用户空间;而非堵塞是指IO操作被调用后立即返回给用户一个状态值，无需等到IO操作彻底完成．</p>
 <h3 id="同步堵塞IO"><a href="#同步堵塞IO" class="headerlink" title="同步堵塞IO"></a>同步堵塞IO</h3><p>同步堵塞IＯ模型是最简单的IO模型，用户线程在内核进行IO操作时候是堵塞的．</p>
 <p><img src="/images/bio_operation.png" alt="bio"></p>
-
+<p>如上图所示，用户线程通过系统调用read发起IO读操作，由用户空间转到内核空间.内核等到数据包到达后，然后将接收的数据拷贝到用户空间，完成read操作．</p>
+<p>这个过程伪代码描述</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  read(scoket,buffer)</span><br><span class="line">  process(buffer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>用户需要等待read将socket中的数据读取到buffer后，才继续处理接收的数据，整个IO请求的过程中，用户线程是被堵塞的，这导致用户在发起IO请求时，不能做任何操作，对CPU的资源利用率不够．</p>
+<h3 id="同步非堵塞IO"><a href="#同步非堵塞IO" class="headerlink" title="同步非堵塞IO"></a>同步非堵塞IO</h3><h3 id="IO多路复用"><a href="#IO多路复用" class="headerlink" title="IO多路复用"></a>IO多路复用</h3><h3 id="异步IO"><a href="#异步IO" class="headerlink" title="异步IO"></a>异步IO</h3>
       
     </div>
     <div class="article-footer">
