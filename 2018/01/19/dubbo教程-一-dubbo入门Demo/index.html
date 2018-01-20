@@ -17,19 +17,19 @@
   
   
   <title>dubbo教程(一):dubbo入门Demo | 云淡de博客</title>
-  <meta name="description" content="什么是dubbo?  官网: dubbo.io 官方文档－用户手册:　http://dubbo.io/books/dubbo-user-book/    高性能和透明化的RPC远程服务调用方案 SOA 服务治理方案  dubbo能做什么? 远程化的远程方法调用 就像调用本地方法一样调用远程方法（动态代理） 只需要简单的配置，没有任何API侵入   软负载均衡及容错机制 可在内网代替F5等硬件负载均">
+  <meta name="description" content="什么是dubbo?  官网: dubbo.io 官方文档－用户手册:　http://dubbo.io/books/dubbo-user-book/    高性能和透明化的RPC远程服务调用方案 SOA 服务治理方案  dubbo能做什么? 远程化的远程方法调用d 就像调用本地方法一样调用远程方法（动态代理） 只需要简单的配置，没有任何API侵入   软负载均衡及容错机制 可在内网代替F5等硬件负载">
 <meta name="keywords" content="java,dubbo,rpc,soa">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dubbo教程(一):dubbo入门Demo">
 <meta property="og:url" content="http://hadesvip.github.io/2018/01/19/dubbo教程-一-dubbo入门Demo/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="什么是dubbo?  官网: dubbo.io 官方文档－用户手册:　http://dubbo.io/books/dubbo-user-book/    高性能和透明化的RPC远程服务调用方案 SOA 服务治理方案  dubbo能做什么? 远程化的远程方法调用 就像调用本地方法一样调用远程方法（动态代理） 只需要简单的配置，没有任何API侵入   软负载均衡及容错机制 可在内网代替F5等硬件负载均">
-<meta property="og:image" content="http://hadesvip.github.io/images/idea_code_style.png">
-<meta property="og:updated_time" content="2018-01-20T06:50:28.796Z">
+<meta property="og:description" content="什么是dubbo?  官网: dubbo.io 官方文档－用户手册:　http://dubbo.io/books/dubbo-user-book/    高性能和透明化的RPC远程服务调用方案 SOA 服务治理方案  dubbo能做什么? 远程化的远程方法调用d 就像调用本地方法一样调用远程方法（动态代理） 只需要简单的配置，没有任何API侵入   软负载均衡及容错机制 可在内网代替F5等硬件负载">
+<meta property="og:image" content="http://hadesvip.github.io/images/dubbo_principle.png">
+<meta property="og:updated_time" content="2018-01-20T07:01:29.496Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dubbo教程(一):dubbo入门Demo">
-<meta name="twitter:description" content="什么是dubbo?  官网: dubbo.io 官方文档－用户手册:　http://dubbo.io/books/dubbo-user-book/    高性能和透明化的RPC远程服务调用方案 SOA 服务治理方案  dubbo能做什么? 远程化的远程方法调用 就像调用本地方法一样调用远程方法（动态代理） 只需要简单的配置，没有任何API侵入   软负载均衡及容错机制 可在内网代替F5等硬件负载均">
-<meta name="twitter:image" content="http://hadesvip.github.io/images/idea_code_style.png">
+<meta name="twitter:description" content="什么是dubbo?  官网: dubbo.io 官方文档－用户手册:　http://dubbo.io/books/dubbo-user-book/    高性能和透明化的RPC远程服务调用方案 SOA 服务治理方案  dubbo能做什么? 远程化的远程方法调用d 就像调用本地方法一样调用远程方法（动态代理） 只需要简单的配置，没有任何API侵入   软负载均衡及容错机制 可在内网代替F5等硬件负载">
+<meta name="twitter:image" content="http://hadesvip.github.io/images/dubbo_principle.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://hadesvip.github.io/2018/01/19/dubbo教程-一-dubbo入门Demo/index.html">
   
@@ -371,7 +371,7 @@
 <li>SOA 服务治理方案</li>
 </ul>
 <h2 id="dubbo能做什么"><a href="#dubbo能做什么" class="headerlink" title="dubbo能做什么?"></a>dubbo能做什么?</h2><ul>
-<li>远程化的远程方法调用<ul>
+<li>远程化的远程方法调用d<ul>
 <li>就像调用本地方法一样调用远程方法（动态代理）</li>
 <li>只需要简单的配置，没有任何API侵入</li>
 </ul>
@@ -385,7 +385,7 @@
 </ul>
 </li>
 </ul>
-<h2 id="dubbo原理"><a href="#dubbo原理" class="headerlink" title="dubbo原理"></a>dubbo原理</h2><p>  <img src="/images/idea_code_style.png" alt="dubbo原理"></p>
+<h2 id="dubbo原理"><a href="#dubbo原理" class="headerlink" title="dubbo原理"></a>dubbo原理</h2><p>  <img src="/images/dubbo_principle.png" alt="dubbo原理"></p>
 <h2 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h2><ul>
 <li><p>项目demo已经存放在github上面</p>
   <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone https://github.com/hadesvip/dubbo-demo.git</span><br></pre></td></tr></table></figure>
@@ -404,6 +404,8 @@
 <li>dubbo-demo-consumer  dubbo-demo的子模块,dubbo服务消费者</li>
 </ul>
 </li>
+</ul>
+<ul>
 <li><p>项目运行</p>
 <ol>
 <li><p>预先安装zookeeper,并启动zk,启动一个zk就行了，生产环境上最好搭建一个zk集群（3的倍数）</p>
