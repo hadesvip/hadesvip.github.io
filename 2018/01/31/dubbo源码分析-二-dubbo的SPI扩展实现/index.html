@@ -17,13 +17,17 @@
   
   
   <title>dubbo源码分析(二):dubbo的SPI扩展实现 | 云淡de博客</title>
-  <meta property="og:type" content="article">
+  <meta name="description" content="JDK中的SPI缺点 jdk中spi是一次性把扩展点的实现全部实例化,如果扩展点的实现很多加载很耗时间  异常无法准确捕捉提示,当扩展点的的某个实现依赖的第三方库不存在,会导致类加载失败,报的错误是找不到扩展点,而不是扩展点加载失败,以及真正的原因   dubbo对SPI的改进 增加了扩展点的默认实现 增加了AOP的实现 增加了缓存机制,提高了性能 配置文件内容改成为key=value形式,这样配">
+<meta name="keywords" content="java,dubbo源码,dubbo">
+<meta property="og:type" content="article">
 <meta property="og:title" content="dubbo源码分析(二):dubbo的SPI扩展实现">
 <meta property="og:url" content="http://hadesvip.github.io/2018/01/31/dubbo源码分析-二-dubbo的SPI扩展实现/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:updated_time" content="2018-01-31T08:47:46.757Z">
+<meta property="og:description" content="JDK中的SPI缺点 jdk中spi是一次性把扩展点的实现全部实例化,如果扩展点的实现很多加载很耗时间  异常无法准确捕捉提示,当扩展点的的某个实现依赖的第三方库不存在,会导致类加载失败,报的错误是找不到扩展点,而不是扩展点加载失败,以及真正的原因   dubbo对SPI的改进 增加了扩展点的默认实现 增加了AOP的实现 增加了缓存机制,提高了性能 配置文件内容改成为key=value形式,这样配">
+<meta property="og:updated_time" content="2018-01-31T09:17:46.642Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="dubbo源码分析(二):dubbo的SPI扩展实现">
+<meta name="twitter:description" content="JDK中的SPI缺点 jdk中spi是一次性把扩展点的实现全部实例化,如果扩展点的实现很多加载很耗时间  异常无法准确捕捉提示,当扩展点的的某个实现依赖的第三方库不存在,会导致类加载失败,报的错误是找不到扩展点,而不是扩展点加载失败,以及真正的原因   dubbo对SPI的改进 增加了扩展点的默认实现 增加了AOP的实现 增加了缓存机制,提高了性能 配置文件内容改成为key=value形式,这样配">
   <!-- Canonical links -->
   <link rel="canonical" href="http://hadesvip.github.io/2018/01/31/dubbo源码分析-二-dubbo的SPI扩展实现/index.html">
   
@@ -224,7 +228,7 @@
   <div class="widget">
     <h3 class="widget-title">Tags</h3>
     <div class="widget-body">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo源码/">dubbo源码</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">5</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpc/">rpc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/soa/">soa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作笔记/">工作笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo源码/">dubbo源码</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">6</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpc/">rpc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/soa/">soa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作笔记/">工作笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li></ul>
     </div>
   </div>
 
@@ -234,7 +238,7 @@
   <div class="widget">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget-body tagcloud">
-      <a href="/tags/dubbo/" style="font-size: 13px;">dubbo</a> <a href="/tags/dubbo源码/" style="font-size: 13.5px;">dubbo源码</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/rpc/" style="font-size: 13px;">rpc</a> <a href="/tags/soa/" style="font-size: 13px;">soa</a> <a href="/tags/工作笔记/" style="font-size: 13px;">工作笔记</a> <a href="/tags/工具/" style="font-size: 13px;">工具</a>
+      <a href="/tags/dubbo/" style="font-size: 13.33px;">dubbo</a> <a href="/tags/dubbo源码/" style="font-size: 13.67px;">dubbo源码</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/rpc/" style="font-size: 13px;">rpc</a> <a href="/tags/soa/" style="font-size: 13px;">soa</a> <a href="/tags/工作笔记/" style="font-size: 13px;">工作笔记</a> <a href="/tags/工具/" style="font-size: 13px;">工具</a>
     </div>
   </div>
 
@@ -364,6 +368,11 @@
 </span>
         
         
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/dubbo/">dubbo</a>, <a class="article-tag-link" href="/tags/dubbo源码/">dubbo源码</a>, <a class="article-tag-link" href="/tags/java/">java</a>
+  </span>
+
 
         
 	<span class="article-read hidden-xs">
@@ -380,7 +389,19 @@
     </div>
     <div class="article-entry markdown-body" itemprop="articleBody">
       
-        
+        <h2 id="JDK中的SPI缺点"><a href="#JDK中的SPI缺点" class="headerlink" title="JDK中的SPI缺点"></a>JDK中的SPI缺点</h2><ol>
+<li><p>jdk中spi是一次性把扩展点的实现全部实例化,如果扩展点的实现很多加载很耗时间</p>
+</li>
+<li><p>异常无法准确捕捉提示,当扩展点的的某个实现依赖的第三方库不存在,会导致类加载失败,报的错误是找不到扩展点,而不是扩展点加载失败,以及真正的原因</p>
+</li>
+</ol>
+<h2 id="dubbo对SPI的改进"><a href="#dubbo对SPI的改进" class="headerlink" title="dubbo对SPI的改进"></a>dubbo对SPI的改进</h2><ol>
+<li>增加了扩展点的默认实现</li>
+<li>增加了AOP的实现</li>
+<li>增加了缓存机制,提高了性能</li>
+<li>配置文件内容改成为key=value形式,这样配置是为了改进上面所说的SPI的第二点缺点,为了将异常信息和配置对应起来</li>
+</ol>
+
       
     </div>
     <div class="article-footer">
