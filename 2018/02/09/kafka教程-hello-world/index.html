@@ -17,18 +17,18 @@
   
   
   <title>kafka教程(-):hello,world | 云淡de博客</title>
-  <meta name="description" content="下载kafka的官方网站是http://kafka.apache.org, 到官网下载最新版kafka_2.11-1.0.0.tgz,如下图  解压kafka_2.11-1.0.0.tgz,其目录结构如下图">
+  <meta name="description" content="下载kafka的官方网站是http://kafka.apache.org, 到官网下载最新版kafka_2.11-1.0.0.tgz,如下图  解压kafka_2.11-1.0.0.tgz,其目录结构如下123456789101112➜  kafka_2.11-1.0.0 ll# 存放的kafka的一系列脚本,用于操作kafkabin# kafka所需的配置config# kafka所需要的jar">
 <meta name="keywords" content="java,kafka">
 <meta property="og:type" content="article">
 <meta property="og:title" content="kafka教程(-):hello,world">
 <meta property="og:url" content="http://hadesvip.github.io/2018/02/09/kafka教程-hello-world/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="下载kafka的官方网站是http://kafka.apache.org, 到官网下载最新版kafka_2.11-1.0.0.tgz,如下图  解压kafka_2.11-1.0.0.tgz,其目录结构如下图">
+<meta property="og:description" content="下载kafka的官方网站是http://kafka.apache.org, 到官网下载最新版kafka_2.11-1.0.0.tgz,如下图  解压kafka_2.11-1.0.0.tgz,其目录结构如下123456789101112➜  kafka_2.11-1.0.0 ll# 存放的kafka的一系列脚本,用于操作kafkabin# kafka所需的配置config# kafka所需要的jar">
 <meta property="og:image" content="http://hadesvip.github.io/images/kafka_download.png">
-<meta property="og:updated_time" content="2018-02-09T10:36:09.946Z">
+<meta property="og:updated_time" content="2018-02-09T11:00:33.537Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="kafka教程(-):hello,world">
-<meta name="twitter:description" content="下载kafka的官方网站是http://kafka.apache.org, 到官网下载最新版kafka_2.11-1.0.0.tgz,如下图  解压kafka_2.11-1.0.0.tgz,其目录结构如下图">
+<meta name="twitter:description" content="下载kafka的官方网站是http://kafka.apache.org, 到官网下载最新版kafka_2.11-1.0.0.tgz,如下图  解压kafka_2.11-1.0.0.tgz,其目录结构如下123456789101112➜  kafka_2.11-1.0.0 ll# 存放的kafka的一系列脚本,用于操作kafkabin# kafka所需的配置config# kafka所需要的jar">
 <meta name="twitter:image" content="http://hadesvip.github.io/images/kafka_download.png">
   <!-- Canonical links -->
   <link rel="canonical" href="http://hadesvip.github.io/2018/02/09/kafka教程-hello-world/index.html">
@@ -398,7 +398,15 @@
       
         <h2 id="下载"><a href="#下载" class="headerlink" title="下载"></a>下载</h2><p>kafka的官方网站是<a href="http://kafka.apache.org" target="_blank" rel="noopener">http://kafka.apache.org</a>, 到官网下载最新版<br>kafka_2.11-1.0.0.tgz,如下图</p>
 <p><img src="/images/kafka_download.png" alt="kafka下载"></p>
-<p>解压kafka_2.11-1.0.0.tgz,其目录结构如下图</p>
+<p>解压kafka_2.11-1.0.0.tgz,其目录结构如下<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">➜  kafka_2.11-1.0.0 ll</span><br><span class="line"></span><br><span class="line"># 存放的kafka的一系列脚本,用于操作kafka</span><br><span class="line">bin</span><br><span class="line"># kafka所需的配置</span><br><span class="line">config</span><br><span class="line"># kafka所需要的jar包</span><br><span class="line">libs</span><br><span class="line">LICENSE</span><br><span class="line">NOTICE</span><br><span class="line"># 文档</span><br><span class="line">site-docs</span><br></pre></td></tr></table></figure></p>
+<h2 id="运行第一个实例"><a href="#运行第一个实例" class="headerlink" title="运行第一个实例"></a>运行第一个实例</h2><p>运行第一个实例: 生产者向kafka发送一条消息,消费者从kafka中接收一条消息</p>
+<ol>
+<li><p>下载并配置zookeeper</p>
+<p>kafka依赖zk,通过zk来管理各种数据和元数据,kafka内部自带了zk,我们单独下载一个zk.</p>
+<p>zk官网网址:<a href="http://zookeeper.apache.org" target="_blank" rel="noopener">http://zookeeper.apache.org</a>, 我们下载zookeeper-3.4.11版本,下面是我zoo.cfg中的配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">tickTime=2000</span><br><span class="line">initLimit=10</span><br><span class="line">syncLimit=5</span><br><span class="line">dataDir=/library/zookeeper-3.4.11/data</span><br><span class="line">clientPort=2181</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
 
       
     </div>
