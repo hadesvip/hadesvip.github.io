@@ -1,0 +1,652 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="Cache-Control" content="no-transform" />
+  <meta http-equiv="Cache-Control" content="no-siteapp" />
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+  <meta name="format-detection" content="telephone=no,email=no,adress=no">
+  <!-- Color theme for statusbar -->
+  <meta name="theme-color" content="#000000" />
+  <!-- 强制页面在当前窗口以独立页面显示,防止别人在框架里调用页面 -->
+  <meta http-equiv="window-target" content="_top" />
+  
+  
+  <title>自己搭建梯子翻墙 | 云淡de博客</title>
+  <meta name="description" content="概述本人之前用过第三方提供的各种vpn,比如:影梭,云梯,蓝灯,由于政府原因,目前就蓝灯还活着,不过蓝灯太不稳定,而且速度很慢,所以决定自己搭建一个vps,本文记录了自己搭建vps遇到的各种问题,以及最后的解决方案,供大家参考,如果大家搭建过程中,有任何问题,欢迎大家留言交流. vps服务器购买 注册我使用的服务器是vultr.主要原因其是按小时收费的,随时可以停用服务器.而且可以支付宝付费,vu">
+<meta name="keywords" content="vpn,vps">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自己搭建梯子翻墙">
+<meta property="og:url" content="http://hadesvip.github.io/2018/03/22/自己搭建梯子翻墙/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="概述本人之前用过第三方提供的各种vpn,比如:影梭,云梯,蓝灯,由于政府原因,目前就蓝灯还活着,不过蓝灯太不稳定,而且速度很慢,所以决定自己搭建一个vps,本文记录了自己搭建vps遇到的各种问题,以及最后的解决方案,供大家参考,如果大家搭建过程中,有任何问题,欢迎大家留言交流. vps服务器购买 注册我使用的服务器是vultr.主要原因其是按小时收费的,随时可以停用服务器.而且可以支付宝付费,vu">
+<meta property="og:image" content="http://hadesvip.github.io/images/vultr_alipay.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/vultr_add_server.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/vultr_select_server.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/buy_server_deploy.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/vultr_server_info.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/vultr_server_detail.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/electron-ssr.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/electron-ssr-server.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/electron-ssr-info.png">
+<meta property="og:image" content="http://hadesvip.github.io/images/SwitchyOmega_config.png">
+<meta property="og:updated_time" content="2018-03-23T06:16:50.536Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="自己搭建梯子翻墙">
+<meta name="twitter:description" content="概述本人之前用过第三方提供的各种vpn,比如:影梭,云梯,蓝灯,由于政府原因,目前就蓝灯还活着,不过蓝灯太不稳定,而且速度很慢,所以决定自己搭建一个vps,本文记录了自己搭建vps遇到的各种问题,以及最后的解决方案,供大家参考,如果大家搭建过程中,有任何问题,欢迎大家留言交流. vps服务器购买 注册我使用的服务器是vultr.主要原因其是按小时收费的,随时可以停用服务器.而且可以支付宝付费,vu">
+<meta name="twitter:image" content="http://hadesvip.github.io/images/vultr_alipay.png">
+  <!-- Canonical links -->
+  <link rel="canonical" href="http://hadesvip.github.io/2018/03/22/自己搭建梯子翻墙/index.html">
+  
+  
+    <link rel="icon" href="/favicon.png" type="image/x-icon">
+  
+  <!-- font-awesome CSS -->
+  <!-- <link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"> -->
+  <link rel="stylesheet" href="/css/style.css">
+  
+    
+    
+        <link rel="stylesheet" href="https://imsun.github.io/gitment/style/default.css">
+    
+
+</head>
+
+
+<body class="main-center" itemscope itemtype="http://schema.org/WebPage">
+  <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+  <div class="slimContent">
+    <div class="navbar-header">
+      
+      
+      <div class="profile-block text-center">
+        <a id="avatar" href="https://github.com/hadesvip" target="_blank">
+          <img class="img-circle img-rotate" src="/images/avatar.jpeg" width="200" height="200">
+        </a>
+        <h2 id="name" class="hidden-xs hidden-sm">云淡</h2>
+        <h3 id="title" class="hidden-xs hidden-sm hidden-md">Web Developer</h3>
+        <small id="location" class="text-muted hidden-xs hidden-sm"><i class="icon icon-map-marker"></i> BeiJing, China</small>
+      </div>
+      
+      <div class="search" id="search-form-wrap">
+
+    <form class="search-form sidebar-form">
+        <div class="input-group">
+            <input type="text" class="search-form-input form-control" placeholder="搜索" />
+            <span class="input-group-btn">
+                <button type="submit" class="search-form-submit btn btn-flat" onclick="return false;"><i class="icon icon-search"></i></button>
+            </span>
+        </div>
+    </form>
+    <div class="ins-search">
+  <div class="ins-search-mask"></div>
+  <div class="ins-search-container">
+    <div class="ins-input-wrapper">
+      <input type="text" class="ins-search-input" placeholder="想要查找什么..." x-webkit-speech />
+      <button type="button" class="close ins-close ins-selectable" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span></button>
+    </div>
+    <div class="ins-section-wrapper">
+      <div class="ins-section-container"></div>
+    </div>
+  </div>
+</div>
+
+
+</div>
+      <button class="navbar-toggle collapsed" type="button" data-toggle="collapse" data-target="#main-navbar" aria-controls="main-navbar" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <nav id="main-navbar" class="collapse navbar-collapse" itemscope itemtype="http://schema.org/SiteNavigationElement" role="navigation">
+      <ul class="nav navbar-nav main-nav">
+        
+        
+        
+        <li class="menu-item menu-item-home">
+          <a href="/.">
+            
+            <i class="icon icon-home-fill"></i>
+            
+            <span class="menu-title">首页</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives">
+            
+            <i class="icon icon-archives-fill"></i>
+            
+            <span class="menu-title">归档</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories">
+            
+            <i class="icon icon-folder"></i>
+            
+            <span class="menu-title">分类</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags">
+            
+            <i class="icon icon-tags"></i>
+            
+            <span class="menu-title">标签</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-repository">
+          <a href="/repository">
+            
+            <i class="icon icon-project"></i>
+            
+            <span class="menu-title">项目</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-books">
+          <a href="/books">
+            
+            <i class="icon icon-book-fill"></i>
+            
+            <span class="menu-title">书单</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-links">
+          <a href="/links">
+            
+            <i class="icon icon-friendship"></i>
+            
+            <span class="menu-title">友链</span>
+          </a>
+        </li>
+        
+        
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about">
+            
+            <i class="icon icon-cup-fill"></i>
+            
+            <span class="menu-title">关于</span>
+          </a>
+        </li>
+        
+      </ul>
+      
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/hadesvip" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    </nav>
+  </div>
+</header>
+
+  
+    <aside class="sidebar" itemscope itemtype="http://schema.org/WPSideBar">
+  <div class="slimContent">
+    
+      <div class="widget">
+    <h3 class="widget-title">公告</h3>
+    <div class="widget-body">
+        <div id="board">
+            
+            <p>您好，您是第<span id="busuanzi_value_site_uv">0</span>位访客</p>
+            
+            <div class="content">
+                <p>欢迎交流与分享经验!</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">分类</h3>
+    <div class="widget-body">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/java/">java</a><span class="category-list-count">6</span><ul class="category-list-child"><li class="category-list-item"><a class="category-list-link" href="/categories/java/kafka/">kafka</a><span class="category-list-count">1</span></li></ul></li><li class="category-list-item"><a class="category-list-link" href="/categories/杂七杂八/">杂七杂八</a><span class="category-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签</h3>
+    <div class="widget-body">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo/">dubbo</a><span class="tag-list-count">2</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/dubbo源码/">dubbo源码</a><span class="tag-list-count">3</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/java/">java</a><span class="tag-list-count">7</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/kafka/">kafka</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpc/">rpc</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/soa/">soa</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vpn/">vpn</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/vps/">vps</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工作笔记/">工作笔记</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/工具/">工具</a><span class="tag-list-count">1</span></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/杂七杂八/">杂七杂八</a><span class="tag-list-count">1</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">标签云</h3>
+    <div class="widget-body tagcloud">
+      <a href="/tags/dubbo/" style="font-size: 13.33px;">dubbo</a> <a href="/tags/dubbo源码/" style="font-size: 13.67px;">dubbo源码</a> <a href="/tags/java/" style="font-size: 14px;">java</a> <a href="/tags/kafka/" style="font-size: 13px;">kafka</a> <a href="/tags/rpc/" style="font-size: 13px;">rpc</a> <a href="/tags/soa/" style="font-size: 13px;">soa</a> <a href="/tags/vpn/" style="font-size: 13px;">vpn</a> <a href="/tags/vps/" style="font-size: 13px;">vps</a> <a href="/tags/工作笔记/" style="font-size: 13px;">工作笔记</a> <a href="/tags/工具/" style="font-size: 13px;">工具</a> <a href="/tags/杂七杂八/" style="font-size: 13px;">杂七杂八</a>
+    </div>
+  </div>
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">归档</h3>
+    <div class="widget-body">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a><span class="archive-list-count">2</span></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a><span class="archive-list-count">6</span></li></ul>
+    </div>
+  </div>
+
+
+    
+      
+  <div class="widget">
+    <h3 class="widget-title">最新文章</h3>
+    <div class="widget-body">
+      <ul class="recent-post-list list-unstyled no-thumbnail">
+        
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/03/22/使用docker运行springboot/" class="title">使用docker运行springboot</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-03-22T14:10:48.000Z" itemprop="datePublished">2018-03-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/03/22/自己搭建梯子翻墙/" class="title">自己搭建梯子翻墙</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-03-22T14:09:15.000Z" itemprop="datePublished">2018-03-22</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/杂七杂八/">杂七杂八</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/23/2018年清单/" class="title">2018年清单</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-23T03:48:17.000Z" itemprop="datePublished">2018-02-23</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                <a class="category-link" href="/categories/java/">java</a><i class="icon icon-angle-right"></i><a class="category-link" href="/categories/java/kafka/">kafka</a>
+              </p>
+              <p class="item-title">
+                <a href="/2018/02/09/kafka教程-hello-world/" class="title">kafka教程(一):hello,world</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-02-09T10:25:18.000Z" itemprop="datePublished">2018-02-09</time>
+              </p>
+            </div>
+          </li>
+          
+          <li>
+            
+            <div class="item-inner">
+              <p class="item-category">
+                
+              </p>
+              <p class="item-title">
+                <a href="/2018/01/31/dubbo源码分析-二-dubbo的SPI扩展实现/" class="title">dubbo源码分析(二):dubbo的SPI扩展实现</a>
+              </p>
+              <p class="item-date">
+                <time datetime="2018-01-31T08:47:46.000Z" itemprop="datePublished">2018-01-31</time>
+              </p>
+            </div>
+          </li>
+          
+      </ul>
+    </div>
+  </div>
+  
+
+    
+  </div>
+</aside>
+
+  
+  
+<main class="main" role="main">
+  <div class="content">
+  <article id="post-自己搭建梯子翻墙" class="article article-type-post" itemscope itemtype="http://schema.org/BlogPosting">
+    
+    <div class="article-header">
+      
+        
+  
+    <h1 class="article-title" itemprop="name">
+      自己搭建梯子翻墙
+    </h1>
+  
+
+      
+      <div class="article-meta">
+        <span class="article-date">
+    <i class="icon icon-calendar-check"></i>
+	<a href="/2018/03/22/自己搭建梯子翻墙/" class="article-date">
+	  <time datetime="2018-03-22T14:09:15.000Z" itemprop="datePublished">2018-03-22</time>
+	</a>
+</span>
+        
+        
+  <span class="article-tag">
+    <i class="icon icon-tags"></i>
+	<a class="article-tag-link" href="/tags/vpn/">vpn</a>, <a class="article-tag-link" href="/tags/vps/">vps</a>
+  </span>
+
+
+        
+	<span class="article-read hidden-xs">
+	    <i class="icon icon-eye-fill" aria-hidden="true"></i>
+	    <span id="busuanzi_container_page_pv">
+			<span id="busuanzi_value_page_pv">0</span>
+		</span>
+	</span>
+
+
+        <span class="post-comment"><i class="icon icon-comment"></i> <a href="/2018/03/22/自己搭建梯子翻墙/#comments" class="article-comment-link">评论</a></span>
+        
+      </div>
+    </div>
+    <div class="article-entry markdown-body" itemprop="articleBody">
+      
+        <h2 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h2><p>本人之前用过第三方提供的各种vpn,比如:影梭,云梯,蓝灯,由于政府原因,目前就蓝灯还活着,不过蓝灯太不稳定,而且速度很慢,所以决定自己搭建一个vps,本文记录了自己搭建vps遇到的各种问题,以及最后的解决方案,供大家参考,如果大家搭建过程中,有任何问题,欢迎大家留言交流.</p>
+<h2 id="vps服务器购买"><a href="#vps服务器购买" class="headerlink" title="vps服务器购买"></a>vps服务器购买</h2><ol>
+<li><h4 id="注册"><a href="#注册" class="headerlink" title="注册"></a>注册</h4><p>我使用的服务器是vultr.主要原因其是按小时收费的,随时可以停用服务器.而且可以支付宝付费,vultr注册地址: <a href="https://www.vultr.com/?ref=7368213" target="_blank" rel="noopener">https://www.vultr.com/?ref=7368213</a> ,到首页进行注册.</p>
+</li>
+<li><h4 id="充值"><a href="#充值" class="headerlink" title="充值"></a>充值</h4><p>购买服务器之前先进行充值,登录vultr之后,选择billing-&gt;alipay,选择要充值的金额,然后点击pay with alipay,跳到支付宝扫码页面支付就行了.</p>
+<p><img src="/images/vultr_alipay.png" alt="vultr中进行支付扫码充值"></p>
+</li>
+<li><h4 id="购买服务器"><a href="#购买服务器" class="headerlink" title="购买服务器"></a>购买服务器</h4><p>充值完毕后,如下图选择servers-&gt;deploy new server</p>
+<p><img src="/images/vultr_add_server.png" alt="vultr中进行支付扫码充值"></p>
+<p>选择服务器地址及服务器系统,及其配置,如下图</p>
+<p><img src="/images/vultr_select_server.png" alt="vultr中进行支付扫码充值"></p>
+<p>选择项第四五六不必选择,第七个给将要部署的服务器命名及添加个label,最后选择delpoy now.</p>
+<p><img src="/images/buy_server_deploy.png" alt="vultr中进行支付扫码充值"></p>
+<p>​</p>
+</li>
+</ol>
+<h2 id="vps服务器部署"><a href="#vps服务器部署" class="headerlink" title="vps服务器部署"></a>vps服务器部署</h2><ol>
+<li><h4 id="服务器信息查看"><a href="#服务器信息查看" class="headerlink" title="服务器信息查看"></a>服务器信息查看</h4><p>服务器安装结束之后,在vultr管理页面,选择左侧选项servers,可以看到刚才部署的服务器信息,如下图</p>
+<p><img src="/images/vultr_server_info.png" alt="vultr中进行支付扫码充值"></p>
+<p><img src="/images/vultr_server_detail.png" alt="vultr中进行支付扫码充值"></p>
+</li>
+<li><h4 id="连接服务器"><a href="#连接服务器" class="headerlink" title="连接服务器"></a>连接服务器</h4><p>使用ssh命令连接服务器</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ssh root@ip -p 端口号</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="下载shadowsocksR-一键管理脚本"><a href="#下载shadowsocksR-一键管理脚本" class="headerlink" title="下载shadowsocksR 一键管理脚本"></a>下载shadowsocksR 一键管理脚本</h4><p>确保服务器上面安装了wget,如果没有安装,执行下面命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yum -y install wget</span><br></pre></td></tr></table></figure>
+<p>下载shadowsocksR脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://softs.fun/Bash/ssr.sh &amp;&amp; chmod +x ssr.sh</span><br></pre></td></tr></table></figure>
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget -N --no-check-certificate https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/ssr.sh &amp;&amp; chmod +x ssr.sh</span><br></pre></td></tr></table></figure>
+</li>
+<li><h4 id="安装shadowsocksR"><a href="#安装shadowsocksR" class="headerlink" title="安装shadowsocksR"></a>安装shadowsocksR</h4><p>运行脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">bash ssr.sh</span><br></pre></td></tr></table></figure>
+<p>输入命令对应的数字来执行命令</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">ShadowsocksR 一键管理脚本脚本 [v2.0.35]</span><br><span class="line"></span><br><span class="line">1. 安装 ShadowsocksR</span><br><span class="line"></span><br><span class="line">2. 更新 ShadowsocksR</span><br><span class="line"></span><br><span class="line">3. 卸载 ShadowsocksR</span><br><span class="line"></span><br><span class="line">4. 安装 libsodium(chacha20)</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">5. 查看 账号信息</span><br><span class="line"></span><br><span class="line">6. 显示 连接信息</span><br><span class="line"></span><br><span class="line">7. 设置 用户配置</span><br><span class="line"></span><br><span class="line">8. 手动 修改配置</span><br><span class="line"></span><br><span class="line">9. 切换 端口模式</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">10. 启动 ShadowsocksR</span><br><span class="line"></span><br><span class="line">11. 停止 ShadowsocksR</span><br><span class="line"></span><br><span class="line">12. 重启 ShadowsocksR</span><br><span class="line"></span><br><span class="line">13. 查看 ShadowsocksR 日志</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">14. 其他功能</span><br><span class="line"></span><br><span class="line">15. 升级脚本</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当前状态: 已安装 并 已启动</span><br><span class="line">当前模式: 单端口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">请输入数字(1-15)</span><br></pre></td></tr></table></figure>
+<p>输入1 ,就开始安装shadowsocksR 服务端并且会提示你输入ShadowsocksR的 端口/密码/加密方式/ 协议/混淆（混淆和协议是通过输入数字选择的） 等参数。虽然没有必要，但是可以考虑重启一下服务器（命令：reboot）</p>
+<p>建议设置为</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">端口：443</span><br><span class="line">加密：chacha20</span><br><span class="line">协议：auth_sha1_v4</span><br><span class="line">混淆：http_simple</span><br></pre></td></tr></table></figure>
+<p>所以按照如下步骤配置即可（下面步骤输入的数字可能会随着版本的变化而有细微变化，以实际为准。内容太多，懒得截图了）：</p>
+<ol>
+<li>运行：bash ssr.sh；</li>
+<li>输入4：安装libsodium，chacha20加密协议的依赖包，等待安装完成，期间如果有提示输入Y记得输入一下；</li>
+<li>运行：bash ssr.sh；</li>
+<li>运行安装SSR的命令：1。安装ShadowsocksR；</li>
+<li>输入端口号：443。443端口为HTTPS协议的默认端口，经过测试是最稳定的（不建议使用其他端口或者使用多端口模式，不过，如果需要在该vps服务器搭建https协议的网站的话就不能使用这个端口啦！）；</li>
+<li>输入密码：强度越大越好，反正不需要记忆；</li>
+<li>输入15：使用chacha20加密方式；</li>
+<li>输入2：使用authsha1_v4协议插件，输入2并确认后会提示是否兼容原版，原版指的是Shadowsocks，没有必要选择兼容，填n后回车即可。</li>
+<li>输入2：使用http_simple混淆，延时小，可靠性高，同样也不需要兼容原版；（小概率导致windows客户端无法连接，可尝试切换其它协议。）</li>
+<li>然后就是一些限制，一般默认几次回车就好了。</li>
+</ol>
+<p>上面的步骤无误之后一键管理脚本就开始安装SSR了，过一会儿会提示下载文件，输入y后回车即可，然后继续等待。</p>
+<p>安装完成之后会显示服务器配置信息。包括ip、端口、密码、加密、协议、混淆等。当然这些都没必要记下来（如果Linux客户端应该是要手动输入的），配置客户端的时候只需要Xshell最下面出现的<strong>SSR链接</strong>即可。</p>
+<p>​</p>
+</li>
+<li><h4 id="安装BBR和封禁垃圾端口"><a href="#安装BBR和封禁垃圾端口" class="headerlink" title="安装BBR和封禁垃圾端口"></a>安装BBR和封禁垃圾端口</h4><p>运行bash ssr.sh命令后输入14即可进入安装BBR和封禁垃圾端口的界面。这两个都按提示部署一下即可，注意BBR安装的时候可能会提示“是否终止卸载内核”，这是系统检测到使用了权限较高的操作，因为BBR需要更换内核，所以我们要选择NO。BBR是google开发的拥塞控制算法，亲测有效，安装之后google秒开，不安装延时相当大。</p>
+</li>
+</ol>
+<h2 id="shadowsocks-客户端配置"><a href="#shadowsocks-客户端配置" class="headerlink" title="shadowsocks 客户端配置"></a>shadowsocks 客户端配置</h2><p>推荐使用SSR+chrome插件SwitchyOmega,由谷歌插件决定是否走代理,由于SSR项目由于某些原因已经从GitHub移除了，所以SSR的PCA模式已经不能使用了,好在国内牛人在github上面开源了一个项目electron-ssr,正好我是linux系统,正好合适.</p>
+<ol>
+<li><p>shadowsocks客户端</p>
+<p>推荐electron-ssr  <a href="https://github.com/erguotou520/electron-ssr" target="_blank" rel="noopener">https://github.com/erguotou520/electron-ssr</a> ,如下图所示,支持mac,linux,win平台</p>
+<p><img src="/images/electron-ssr.png" alt="electron-ssr"></p>
+</li>
+<li><p>配置</p>
+<p>ssh连接刚才的vultr服务器,运行ssr脚本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br></pre></td><td class="code"><pre><span class="line">ShadowsocksR 一键管理脚本脚本 [v2.0.35]</span><br><span class="line"></span><br><span class="line">1. 安装 ShadowsocksR</span><br><span class="line"></span><br><span class="line">2. 更新 ShadowsocksR</span><br><span class="line"></span><br><span class="line">3. 卸载 ShadowsocksR</span><br><span class="line"></span><br><span class="line">4. 安装 libsodium(chacha20)</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">5. 查看 账号信息</span><br><span class="line"></span><br><span class="line">6. 显示 连接信息</span><br><span class="line"></span><br><span class="line">7. 设置 用户配置</span><br><span class="line"></span><br><span class="line">8. 手动 修改配置</span><br><span class="line"></span><br><span class="line">9. 切换 端口模式</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">10. 启动 ShadowsocksR</span><br><span class="line"></span><br><span class="line">11. 停止 ShadowsocksR</span><br><span class="line"></span><br><span class="line">12. 重启 ShadowsocksR</span><br><span class="line"></span><br><span class="line">13. 查看 ShadowsocksR 日志</span><br><span class="line">————————————</span><br><span class="line"></span><br><span class="line">14. 其他功能</span><br><span class="line"></span><br><span class="line">15. 升级脚本</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">当前状态: 已安装 并 已启动</span><br><span class="line">当前模式: 单端口</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">请输入数字(1-15)</span><br></pre></td></tr></table></figure>
+<p> 输入数字5 查看账号信息,将账号信息对应的填入electron-ssr客户端服务器配置信息中.</p>
+<p><img src="/images/electron-ssr-server.png" alt="electron-ssr"></p>
+<p>​                     <img src="/images/electron-ssr-info.png" alt="electron-ssr"></p>
+<p> 最后在谷歌的插件SwitchyOmega中配置下代理地址</p>
+<p><img src="/images/SwitchyOmega_config.png" alt="electron-ssr"></p>
+<p> 至此为止,所有的配置已经完成,尽情享受吧.</p>
+</li>
+</ol>
+<h2 id="其他客户端"><a href="#其他客户端" class="headerlink" title="其他客户端"></a>其他客户端</h2><ol>
+<li><p>安卓</p>
+<p><a href="https://github.com/shadowsocksr-backup/shadowsocksr-android/releases" target="_blank" rel="noopener">https://github.com/shadowsocksr-backup/shadowsocksr-android/releases</a></p>
+</li>
+<li><p>ios</p>
+<p><a href="https://github.com/j-proxy/iossos" target="_blank" rel="noopener">https://github.com/j-proxy/iossos</a></p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-footer">
+      <blockquote class="mt-2x">
+  <ul class="post-copyright list-unstyled">
+    
+    <li class="post-copyright-link hidden-xs">
+      <strong>本文链接：</strong>
+      <a href="http://hadesvip.github.io/2018/03/22/自己搭建梯子翻墙/" title="自己搭建梯子翻墙" target="_blank" rel="external">http://hadesvip.github.io/2018/03/22/自己搭建梯子翻墙/</a>
+    </li>
+    
+    <li class="post-copyright-license">
+      <strong>版权声明： </strong> 本博客所有文章除特别声明外，均采用 <a href="http://creativecommons.org/licenses/by/4.0/deed.zh" target="_blank" rel="external">CC BY 4.0 CN协议</a> 许可协议。转载请注明出处！
+    </li>
+  </ul>
+</blockquote>
+
+
+<div class="panel panel-default panel-badger">
+  <div class="panel-body">
+    <figure class="media">
+      <div class="media-left">
+        <a href="https://github.com/hadesvip" target="_blank" class="img-burn thumb-sm visible-lg">
+          <img src="/images/avatar.jpeg" class="img-rounded w-full" alt="">
+        </a>
+      </div>
+      <div class="media-body">
+        <h3 class="media-heading"><a href="https://github.com/hadesvip" target="_blank"><span class="text-dark">云淡</span><small class="ml-1x">Web Developer</small></a></h3>
+        <div>喜欢新事物,关注服务端动态,对新技术有追求,喜欢Coding。</div>
+      </div>
+    </figure>
+  </div>
+</div>
+
+
+    </div>
+  </article>
+  
+    
+  <section id="comments">
+  	
+       
+
+
+    
+    
+  </section>
+
+
+  
+</div>
+
+  <nav class="bar bar-footer clearfix" data-stick-bottom>
+  <div class="bar-inner">
+  
+  <ul class="pager pull-left">
+    
+    <li class="prev">
+      <a href="/2018/03/22/使用docker运行springboot/" title="使用docker运行springboot"><i class="icon icon-angle-left" aria-hidden="true"></i>&nbsp;&nbsp;上一篇</a>
+    </li>
+    
+    
+    <li class="next">
+      <a href="/2018/02/23/2018年清单/" title="2018年清单">下一篇&nbsp;&nbsp;<i class="icon icon-angle-right" aria-hidden="true"></i></a>
+    </li>
+    
+  </ul>
+  
+  
+  
+  <div class="bar-right">
+    
+    <div class="share-component" data-sites="weibo,qq,wechat,facebook,twitter" data-mobile-sites="weibo,qq,qzone"></div>
+    
+    
+  </div>
+  </div>
+</nav>
+  
+
+
+</main>
+
+  <footer class="footer" itemscope itemtype="http://schema.org/WPFooter">
+	
+	
+    <ul class="social-links">
+    	
+        <li><a href="https://github.com/hadesvip" target="_blank" title="Github" data-toggle=tooltip data-placement=top><i class="icon icon-github"></i></a></li>
+        
+    </ul>
+
+    <div class="copyright">
+    	
+        <div class="publishby">
+        	Theme by <a href="https://github.com/cofess" target="_blank"> cofess </a>base on <a href="https://github.com/cofess/hexo-theme-pure" target="_blank">pure</a>.
+        </div>
+    </div>
+</footer>
+  <script src="https://cdn.bootcss.com/jquery/1.12.4/jquery.min.js"></script>
+<script>
+window.jQuery || document.write('<script src="js/jquery.min.js"><\/script>')
+</script>
+<script src="/js/plugin.min.js"></script>
+<script src="/js/application.js"></script>
+  
+    
+    
+    
+        <script>
+(function (window) {
+    var INSIGHT_CONFIG = {
+        TRANSLATION: {
+            POSTS: '文章',
+            PAGES: '页面',
+            CATEGORIES: '分类',
+            TAGS: '标签',
+            UNTITLED: '(未命名)',
+        },
+        ROOT_URL: '/',
+        CONTENT_URL: '/content.json',
+    };
+    window.INSIGHT_CONFIG = INSIGHT_CONFIG;
+})(window);
+</script>
+<script src="/js/insight.js"></script>
+    
+    
+    
+        
+<script defer src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+
+
+    
+    
+        
+    
+<script src="https://imsun.github.io/gitment/dist/gitment.browser.js"></script>
+<script>
+var gitment = new Gitment({
+  // id默认为当前页面url，如果url后带参数或锚点，gitment要重新初始化
+  // https://github.com/imsun/gitment/issues/55
+  // 解决方案：id:window.location.pathname,或者将id设置为当前页面标题
+  id: '自己搭建梯子翻墙', 
+  owner: 'hadesvip', // 可以是你的GitHub用户名，也可以是github id
+  repo: 'hadesvip.github.io',
+  oauth: {
+    client_id: 'fd952e3b69b0cbb14f07',
+    client_secret: 'db288673cbbc4d539594241a09e4842534290eb1',
+  }
+})
+gitment.render('comments')
+</script>
+
+    
+
+    
+    
+
+
+
+</body>
+</html>
