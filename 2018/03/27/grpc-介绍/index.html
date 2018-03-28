@@ -25,7 +25,7 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="grpc一个高性能,开源的统一的rpc框架. grpc 使用protocol buffer 既作为它的IDL(Interface Define language)又作为它底层的消息交换格式. 在grpc 客户端中能够直接调用在不同机器中服务应用中的方法,就好像是本地对象,使得你可以轻松的创建分布式应 用和服务.就像很多rpc系统一样,grpc基于一个定义一个服务,指定一个可以远程调用带有返回参数和">
 <meta property="og:image" content="http://hadesvip.github.io/images/grpc_platforms.png">
-<meta property="og:updated_time" content="2018-03-27T08:30:31.210Z">
+<meta property="og:updated_time" content="2018-03-28T13:36:12.015Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="grpc(一):介绍">
 <meta name="twitter:description" content="grpc一个高性能,开源的统一的rpc框架. grpc 使用protocol buffer 既作为它的IDL(Interface Define language)又作为它底层的消息交换格式. 在grpc 客户端中能够直接调用在不同机器中服务应用中的方法,就好像是本地对象,使得你可以轻松的创建分布式应 用和服务.就像很多rpc系统一样,grpc基于一个定义一个服务,指定一个可以远程调用带有返回参数和">
@@ -400,7 +400,51 @@
 <p>法 的想法.在服务端,服务会实现一个接口并且运行一个rpc服务来处理客户端的调用.在客户端,客户端会有一个</p>
 <p>stub(在某些语言中也称为client),提供了和服务端相同的方法.</p>
 <p><img src="/images/grpc_platforms.png" alt="grpc_platform"></p>
-<h2 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h2><h3 id="简单的服务定义"><a href="#简单的服务定义" class="headerlink" title="简单的服务定义"></a>简单的服务定义</h3><p>使用protocol buffers(强大的二进制序列化工具集和语言)定义你的服务.</p>
+<h2 id="grpc-服务方法定义"><a href="#grpc-服务方法定义" class="headerlink" title="grpc 服务方法定义"></a>grpc 服务方法定义</h2><p>grpc 允许你定义4种服务方法</p>
+<ol>
+<li><p>一次性的rpc,客户端发送一个请求,服务端返回一个响应,就像普通方法调用</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">rpc <span class="title">SayHello</span><span class="params">(HttpRequest)</span> <span class="title">returns</span> <span class="params">(HelloResponse)</span></span>&#123;&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>服务器streamRPC:客户端发送一个请求到服务端并且客户端会获取到一个stream来读取一系列的消息.客户端会读取这个返回的stream直到所有消息全部读取</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="function">rpc <span class="title">LotsOfReplies</span><span class="params">(HelloRequest)</span> <span class="title">returns</span> <span class="params">(stream HelloResponse)</span></span>&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>​</p>
+</li>
+<li><p>客户端streamRPC:客户端写一系列消息并且把它发送到服务端,再次使用提供的stream.一旦客户端完成写消息,它就会等待服务器读取并返回响应.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpc LotsOfReplies(HelloRequest) returns (stream HelloResponse)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>第四种是第二种和第三种的结合.双向streamRPC,在两端,双方都可以使用读写流发送一系列消息.这两种流的操作是相互独立的互不影响,所以客户端和服务器端可以使用他们任意的方式来读写.比如:服务器可以等待接收所有客户端的消息然后发送响应或者读取消息然后写这个消息,或者其他的读写组合.每一个stream的消息顺序是得到保证的.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">rpc BidiHello(stream HelloRequest) returns (stream HelloResponse)&#123;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+</ol>
+<h2 id="使用API"><a href="#使用API" class="headerlink" title="使用API"></a>使用API</h2><p>从一个.proto文件开始进行一个服务定义,grpc提供了protocol buffer的编译器插件去生成客户端和服务端代码.grpc用户通常会在客户端调用这些API和在服务端实现相应的API.</p>
+<ul>
+<li><p>在服务端,服务实现通过服务定义的方法并且运行一个grpc的服务来处理客户端的调用.grpc的基础机构通过传入的请求就行编码,执行服务方法并且对服务响应进行解码.</p>
+</li>
+<li><p>在客户端,客户端拥有一个叫桩(stub)作为本地对象实现跟服务相同的方法.客户端可以在本地对象上调用的这些方法,在适当的protobuffer消息类型中封装调用的参数-grpc将请求发送给服务器并返回服务器的protobuffer响应.</p>
+<p>​</p>
+</li>
+</ul>
+<h2 id="同步和异步比较-Synchronous-vs-asynchronous"><a href="#同步和异步比较-Synchronous-vs-asynchronous" class="headerlink" title="同步和异步比较(Synchronous vs. asynchronous)"></a>同步和异步比较(Synchronous vs. asynchronous)</h2><p>同步rpc调用会造成堵塞,这个堵塞到直到一个响应从服务端到达.另一方面,网络天生是异步的,这个对于不适用堵塞当前线程的情况下是非常适用的.</p>
+<p>grpc在大多数编程语言都具有同步和异步的特点,具体参照rpc对应的语言文档.</p>
+<h2 id="rpc生命周期"><a href="#rpc生命周期" class="headerlink" title="rpc生命周期"></a>rpc生命周期</h2><p>让我们看看grpc客户端调用服务端rpc方法的时候,发生了什么,我们不去看具体的细节.</p>
+<h3 id="一次性rpc"><a href="#一次性rpc" class="headerlink" title="一次性rpc"></a>一次性rpc</h3><p>首先我们看下简单的rpc类型,客户单发送一个请求,然后获取一个响应.</p>
+<p>一旦客户端调用了在stu或者client对象上的方法,服务端会接收rpc的通知,这个通知包含了这次调用的客户端的元数据,方法的名字和指定的期限如果适用的话.</p>
+<p>服务器端要么立即返回它自己的元数据,要么等待客户端请求消息-这个发送在特性的应用程序中.</p>
+<p>一旦服务器接收到客户端的请求消息,它就会做一些必要工作来创建和构成它的响应.这个响应成功返回,会带有状态信息(状态码和可选的状态消息)和可选的元数据消息.</p>
+<p>如果这个状态是ok的话,客户端会得到响应,在客户端完成这次调用.</p>
+<h3 id="stream服务rpc"><a href="#stream服务rpc" class="headerlink" title="stream服务rpc"></a>stream服务rpc</h3><p>服务端streamRPC跟上面一次性rpc类似,除了服务器在得到客户端的请求消息之后发送一个stream的响应之外,在返回它所有的响应之后,服务器的状态详情和可选的元数据也会被服务端发送回完成.一旦客户端接收到所有的服务器的响应,这个调用就完成了.</p>
+<h3 id="stream客户端rpc"><a href="#stream客户端rpc" class="headerlink" title="stream客户端rpc"></a>stream客户端rpc</h3><p>客户端streamRPC跟之前一次性rpc一样,除了客户端发送一个请求stream到服务器.在服务器接收完所有的客户端请求之后,服务器端会发送回一个响应,并带上状态详情和可选的元数据.</p>
+<h3 id="双向stream的rpc"><a href="#双向stream的rpc" class="headerlink" title="双向stream的rpc"></a>双向stream的rpc</h3><p>在一个双向的streamRPC中,这个调用还是通过客户端调用方法和服务器接收客户端元数据,方法名和期限.服务器能够选择把它的元数据发送回或者等待客户端发起的请求(个人理解:也就说给客户端返回消息和等待客户端请求可以同时进行).</p>
+<p>接下来发生什么完全取决于应用程序,客户端和服务端能够任意读写-对stream的操作是相互对的,互不干扰.举个例子,服务端在它写这些响应之前能够一直等待,直到它接收到所有客户端的消息,或者服务器端和客户端能够来回交互:服务端得到一个请求,然后发送回一个响应,然后客户端基于刚才的响应又发送另外一个请求,一次类推.</p>
+<h3 id="期限-超时"><a href="#期限-超时" class="headerlink" title="期限/超时"></a>期限/超时</h3><p>grpc允许客户端 在rpc通过错误DEADLINE_EXCEEDED终止之前,指定他们等待一个RPC完成的时间长度.在服务端,服务端能够查询到某一个rpc是否超时,或者还需要多少时间完成这个rpc.</p>
+<p>这个deadline或者timeout参数怎样指定在语言到语言中是不一样的-比如,不是所有的语言都有一个默认的deadline,一些语言api运行终止是deadline(一个固定的时间点),还有一些语言api运行终止是timeout(持续的时间)</p>
+<h3 id="rpc终止"><a href="#rpc终止" class="headerlink" title="rpc终止"></a>rpc终止</h3><p>在grpc中,客户端和服务端都对调用成功进行独立和局部的确定,并且他们的结论是不匹配的.举个列子,你在服务端成功完成(发送了所有的响应),但是客户端是失败的(这些响应在deadline之后到达).在一个客户端发送了所有请求,服务器端可能已经结束了rpc调用.</p>
+<h3 id="取消rpc"><a href="#取消rpc" class="headerlink" title="取消rpc"></a>取消rpc</h3><p>不管客户端或者服务端在任何时候都能取消rpc.一个取消信号发出,rpc会立即停止.它不是undo:在取消之前发生的变化不能够被回滚.</p>
+<h3 id="元数据"><a href="#元数据" class="headerlink" title="元数据"></a>元数据</h3><p>元数据是对某一个rpc调用的相关信息(就像授权详情),存放在key-value对的列表表单,这个key-value对的key是字符串,通常value也是字符串,但是也可以是二进制数据.元数据对于grpc自身是不透明的-它让客户端提供此次调用的相关信息给服务端,反之亦然.</p>
+<p>对于元数据的访问跟语言无关.</p>
+<h3 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h3><p>一个grpc管道提供了一个对于grpc服务端的连接,这个服务端有一个特定的地址和端口,它在创建客户端stub的时候创建.客户端能够指定管道参数来修改grpc默认行为,比如切换消息压缩的开关.每个管道都有状态,包括已连接和闲置.</p>
+<p>grpc如何处理关闭管道跟语言相关,有些语言可以允许查询管道状态.</p>
+<h2 id="grpc特点"><a href="#grpc特点" class="headerlink" title="grpc特点"></a>grpc特点</h2><h3 id="简单的服务定义"><a href="#简单的服务定义" class="headerlink" title="简单的服务定义"></a>简单的服务定义</h3><p>使用protocol buffers(强大的二进制序列化工具集和语言)定义你的服务.</p>
 <h3 id="跨越语言和平台工作"><a href="#跨越语言和平台工作" class="headerlink" title="跨越语言和平台工作"></a>跨越语言和平台工作</h3><p>在各种语言和平台,为你的服务自动生成符合习惯的客户端和服务端stubs(桩).</p>
 <h3 id="快速开始和可伸缩"><a href="#快速开始和可伸缩" class="headerlink" title="快速开始和可伸缩"></a>快速开始和可伸缩</h3><p>通过一条命令就可以安装运行和开发环境并且通过框架扩容多个rpcs机器.</p>
 <h3 id="双向的流和授权"><a href="#双向的流和授权" class="headerlink" title="双向的流和授权"></a>双向的流和授权</h3><p>双向的流通信和完全的可插拔认证通过http2的传输.</p>
